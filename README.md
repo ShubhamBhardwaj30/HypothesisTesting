@@ -58,7 +58,7 @@ Use when population SD ($\sigma$) is known.
 - $$t = \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$
 - Approximate degrees of freedom (Welch–Satterthwaite):
 $$
-df \approx \frac{\left(\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}\right)^2}{\frac{\left(\frac{s_1^2}{n_1}\right)^2}{n_1 - 1} + \frac{\left(\frac{s_2^2}{n_2}\right)^2}{n_2 - 1}}
+df = \frac{\left(\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}\right)^2}{\frac{\left(\frac{s_1^2}{n_1}\right)^2}{n_1 - 1} + \frac{\left(\frac{s_2^2}{n_2}\right)^2}{n_2 - 1}}
 $$
 
 - Use $t$ with that $df$.
@@ -96,7 +96,7 @@ $$
 - Group means: $\bar{X}_i$, grand mean: $\bar{X}_{\text{grand}}$.
 
 **Between-group sum of squares (SSB):**
-- $$SSB = \sum_i n_i (\bar{X}_i - \bar{X}_{\text{grand}})^2$$
+- $$SSB = \sum_i (n_i (\bar{X}_i - \bar{X}_{\text{grand}})^2)$$
 - $$df_B = k - 1$$
 
 **Within-group sum of squares (SSW):**
