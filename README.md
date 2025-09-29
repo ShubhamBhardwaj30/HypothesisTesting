@@ -149,3 +149,32 @@ $$
 - Always report test statistic, df (if applicable), and p-value. Also report effect size (difference in means, risk difference, odds ratio) and confidence intervals when possible.
 
 ---
+
+# Hypothesis Testing Cheat Sheet — Meta Interview Version (Table Format)
+
+| Test | Use Case | Conceptual Formula / Key Idea | Notes / Assumptions |
+|------|---------|------------------------------|-------------------|
+| **One-sample t-test** | Compare sample mean to known value | `t ≈ (sample_mean - hypothesized_mean) / (s / sqrt(n))` | Population SD unknown; small n; continuous & approx normal |
+| **One-sample Z-test (mean/proportion)** | Large n or known population SD / proportions | Mean: `Z ≈ (sample_mean - mu0) / (sigma / sqrt(n))`<br>Proportion: `Z ≈ (p_hat - p0) / sqrt(p0*(1-p0)/n)` | Large n; binary outcome for proportions |
+| **Two-sample independent t-test** | Compare means of 2 independent groups | `t ≈ (mean1 - mean2) / SE`, `SE = sqrt(s1^2/n1 + s2^2/n2)` | Use Welch’s t if unequal variances; continuous & approx normal |
+| **Paired t-test** | Compare before/after or matched pairs | `t ≈ mean(differences) / (s_diff / sqrt(n))` | Continuous differences; paired observations |
+| **Two-sample proportion Z-test** | Compare 2 proportions | `Z ≈ (p1 - p2) / sqrt(pooled_p*(1 - pooled_p)*(1/n1 + 1/n2))` | Independent binary samples |
+| **Chi-square goodness-of-fit** | Test observed vs expected frequencies | `chi2 = sum((O - E)^2 / E)` | Categorical; expected counts ≥ 5 recommended |
+| **Chi-square test of independence** | Test association between 2 categorical variables | `chi2 = sum((O_ij - E_ij)^2 / E_ij)`, `df = (rows-1)*(cols-1)` | Contingency table; counts sufficient |
+| **McNemar’s test** | Paired binary data (before/after) | `chi2 ≈ (b - c)^2 / (b + c)`, `df = 1` | Focuses on discordant pairs; exact binomial for small counts |
+| **One-way ANOVA** | Compare means of 3+ independent groups | `F = MSB / MSW`, `MSB = SSB / df_between`, `MSW = SSW / df_within` | Continuous outcome; normality; equal variance; df_between=k-1, df_within=N-k |
+| **Two-way ANOVA** | Test 2 factors + interaction | `F_factor = MS_factor / MS_error`; df: `df_A=a-1`, `df_B=b-1`, `df_AB=(a-1)(b-1)`, `df_Error=N-ab` | Continuous outcome; normality; equal variance |
+| **Non-parametric alternatives** | When assumptions violated | Mann–Whitney U (two independent groups), Wilcoxon signed-rank (paired), Kruskal–Wallis (3+ groups), Friedman (repeated measures) | For ordinal or non-normal data |
+
+
+## Function Names & Definitions
+	•	One-sample proportion Z-test → proportions_ztest
+	•	One-sample t-test → stats.ttest_1samp
+	•	Paired t-test → stats.ttest_rel
+	•	Two-sample independent t-test → stats.ttest_ind
+	•	Two-sample proportion Z-test → proportions_ztest
+	•	Chi-square test of independence → stats.chi2_contingency
+	•	Chi-square goodness-of-fit → stats.chisquare
+	•	McNemar’s test → mcnemar
+	•	One-way ANOVA → stats.f_oneway
+	•	Two-way ANOVA → ols + anova_lm
