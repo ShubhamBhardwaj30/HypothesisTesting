@@ -91,7 +91,7 @@ Use when population SD ($\sigma$) is known.
 
 ### One-way ANOVA (k groups)
 - Let $k$ = number of groups, $n_i$ = size of group $i$, $N$ = total observations.
-- Group means: $\bar{X}_i$, grand mean: $\bar{X}_{\text{grand}}$.
+- Group means: $$\bar{X}_i$$, grand mean: $$\bar{X}_{\text{grand}}$$
 
 **Between-group sum of squares (SSB):**
 - $$SSB = \sum_i (n_i (\bar{X}_i - \bar{X}_{\text{grand}})^2)$$
