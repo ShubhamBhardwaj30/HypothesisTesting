@@ -176,3 +176,109 @@ Use when population SD ($\sigma$) is known.
 	•	McNemar’s test → mcnemar
 	•	One-way ANOVA → stats.f_oneway
 	•	Two-way ANOVA → ols + anova_lm
+
+### ------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Non parametric tests
+
+## 1️⃣ Mann-Whitney U Test
+
+Purpose:
+Compare two independent groups when the outcome is continuous or ordinal, but not normally distributed.
+It’s the non-parametric alternative to the independent t-test.
+
+Scenario example (Meta case study style):
+You run an A/B test on a new feed ranking algorithm. Group A sees the old feed, Group B sees the new feed. You measure time spent per user. The distribution is skewed, so you can’t use a t-test.
+
+How it works:
+	•	Rank all observations across both groups.
+	•	Compute the U statistic based on ranks.
+	•	A small p-value (<0.05) → groups are significantly different.
+
+✅ 1. Intuition behind the math
+
+Know why it works:
+	•	Instead of comparing means (like a t-test), it compares ranks of data points.
+	•	The test asks: “If I randomly pick one value from Group A and one from Group B, what’s the probability the value from A is greater than B?”
+	•	The U statistic measures how often this is true.
+
+✅ 2. What assumptions it relaxes
+
+You should say:
+
+“The Mann–Whitney U test doesn’t assume normality — it only assumes the distributions are similar in shape and observations are independent.”
+
+✅ 3. When to use it
+	•	Data are not normally distributed or contain outliers.
+	•	Independent groups (e.g., control vs treatment).
+	•	Outcome variable is ordinal or continuous.
+
+✅ 4. What the output means
+	•	U statistic: rank-based measure of difference.
+	•	p-value: probability of observing such a difference under the null hypothesis.
+	•	A small p-value → reject H₀ → groups differ significantly.
+
+## 2️⃣ Wilcoxon signed-rank test
+
+1️⃣ Purpose
+	•	Compares two related/paired samples.
+	•	Non-parametric alternative to the paired t-test.
+	•	Used when differences are not normally distributed.
+
+⸻
+
+2️⃣ Use cases (real-world example)
+	•	Meta case: Suppose Meta wants to test a new feed ranking algorithm:
+	•	Users’ engagement is measured before and after the algorithm is deployed on the same users.
+	•	Engagement is not normally distributed.
+	•	Wilcoxon signed-rank test checks if there’s a significant change in median engagement.
+
+⸻
+
+3️⃣ Hypotheses
+	•	H_0: The median difference between paired observations is 0.
+	•	H_1: The median difference is not 0.
+
+⸻
+
+4️⃣ How it works
+1.	Compute the differences between each pair: $$d_i = x_{i,\text{after}} - x_{i,\text{before}}$$.
+2.	Ignore differences equal to 0.
+3.	Rank the absolute differences (|d_i|) from smallest to largest.
+4.	Assign the sign of the original difference to the ranks.
+5.	Compute the sum of positive ranks $$W^+$$ and negative ranks $$W^-$$.
+6.	Test statistic: $$W = \min(W^+, W^-)$$.
+7.	Compare W to the critical value table (or compute exact p-value using software).
+
+## 3️⃣ Kruskal-Wallis H test
+
+Concept
+
+The Kruskal-Wallis H test is a non-parametric alternative to one-way ANOVA.
+It’s used when:
+	•	You have 3 or more independent groups.
+	•	The outcome is ordinal or continuous but not normally distributed.
+	•	You want to test if at least one group comes from a different distribution.
+
+It does not assume normality, unlike ANOVA, and tests whether the medians of the groups differ.
+
+⸻
+
+Hypotheses
+	•	H_0: All groups have the same distribution (medians are equal)
+	•	H_1: At least one group comes from a different distribution
+
+⸻
+
+Test Statistic
+	1.	Rank all data from all groups together.
+	2.	Compute the sum of ranks for each group.
+	3.	Calculate the Kruskal-Wallis H statistic:
+
+$$H = \frac{12}{N(N+1)} \sum_{i=1}^k \frac{R_i^2}{n_i} - 3(N+1)$$
+
+Where:
+	•	N = total number of observations
+	•	k = number of groups
+	•	R_i = sum of ranks for group i
+	•	n_i = number of observations in group i
+	•	p-value is computed using a chi-square distribution with k-1 degrees of freedom.
